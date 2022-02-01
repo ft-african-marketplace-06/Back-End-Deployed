@@ -1,9 +1,7 @@
 exports.up = async (knex) => {
   await knex.schema.createTable("users", (users) => {
     users.increments("user_id");
-    users.string("username", 200)
-      .notNullable()
-      .unique();
+    users.string("username", 200).notNullable().unique();
     users.string("password", 200).notNullable();
     users.boolean("is_owner").defaultTo(false);
   });
@@ -24,11 +22,10 @@ exports.up = async (knex) => {
     items.integer("user_id").notNullable();
     items.foreign("user_id").references("user_id").inTable("users");
   });
-
 };
 
 exports.down = async (knex) => {
+  await knex.schema.dropTableIfExists("items");
   await knex.schema.dropTableIfExists("users");
   await knex.schema.dropTableIfExists("locations");
-  await knex.schema.dropTableIfExists("items");
 };
