@@ -9,6 +9,8 @@ server.use(express.json());
 server.use(helmet());
 server.use(cors());
 server.use("/api/users", usersRouter);
+const usersRouter = require('./users/router.js');
+const locationsRouter = require('./locations/router.js');
 
 server.use((err, req, res, next) => {// eslint-disable-line
  res.status(err.status || 500).json({
@@ -18,5 +20,7 @@ server.use((err, req, res, next) => {// eslint-disable-line
 });
 
 server.use("/api/items", ItemsRouter);
+server.use('/api/users', usersRouter);
+server.use('/api/locations', locationsRouter);
 
 module.exports = server;
