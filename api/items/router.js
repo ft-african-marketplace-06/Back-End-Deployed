@@ -11,19 +11,17 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/:id", validateItemId, async (req, res, next) => {
- const { item_id } = req.params;
  try {
-  const item = await Items.getById(item_id);
-  res.status(200).json(item);
+  res.status(200).json(req.existingItem);
  } catch (err) {
   next(err);
  }
 });
 
 router.put("/:id", validateItemId, itemValidation, async (req, res, next) => {
- const { item_id } = req.params;
+ const { id } = req.params;
  try {
-  const updatedItem = await Items.edit(item_id);
+  const updatedItem = await Items.edit(id, req.existingItem);
   res.status(202).json(updatedItem);
  } catch (err) {
   next(err);
@@ -42,6 +40,16 @@ router.post("/", itemValidation, async (req, res, next) => {
    user_id,
   });
   res.status(201).json(createdItem);
+ } catch (err) {
+  next(err);
+ }
+});
+
+router.delete("/:id", validateItemId, async (req, res, next) => {
+ try {
+  const { id } = req.params;
+  const item = await Items.remove(id);
+  res.json(item);
  } catch (err) {
   next(err);
  }
