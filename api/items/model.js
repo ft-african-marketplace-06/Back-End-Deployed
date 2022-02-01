@@ -1,7 +1,10 @@
 const db = require("../data/db-config");
 
 const get = () => {
- return db("items");
+ return db("items as i")
+    .join('locations as l', 'i.location_id', 'l.location_id')
+    .join('users as u', 'i.user_id', 'u.user_id')
+    .select('item_id', 'u.username', 'l.location_name', 'item_name', 'item_category', 'item_price', 'item_description');
 };
 
 const getById = (id) => {
