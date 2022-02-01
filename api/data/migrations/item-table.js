@@ -5,7 +5,8 @@ exports.up = async (knex) => {
     items.string("item_name").notNullable();
     items.string("item_description").notNullable();
     items.decimal("item_price").notNullable();
-    items.string("item_location").notNullable();
+    items.string("location_id").notNullable();
+    items.foreign("location_id").references("location_id").inTable("location");
     items.integer("user_id").notNullable();
     items.foreign("user_id").references("user_id").inTable("users");
   });
