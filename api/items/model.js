@@ -14,8 +14,18 @@ const create = async (item) => {
  return newItem;
 };
 
+const edit = async (id, item) => {
+ return db("items").where("item_id", id).update(item);
+};
+
+const remove = (id) => {
+ return db("items").where("item_id", id).del();
+};
+
 module.exports = {
  get,
  getById,
  create,
+ edit,
+ remove,
 };
