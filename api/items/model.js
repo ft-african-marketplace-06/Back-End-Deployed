@@ -9,8 +9,14 @@ const getById = (id) => {
 };
 
 const create = async (item) => {
- const [id] = await db("items").insert(item);
- const newItem = await getById(id);
+ const [newItem] = await db("items").insert(item, [
+  "user_id",
+  "item_category",
+  "item_name",
+  "item_price",
+  "location_id",
+ ]);
+
  return newItem;
 };
 
