@@ -2,6 +2,8 @@ const router = require("express").Router();
 const { validateItemId, itemValidation } = require("./middleware");
 const Items = require("./model");
 
+const { restricted } = require('../auth/middleware.js');
+
 router.get("/", (req, res, next) => {
  Items.get()
   .then((item) => {
@@ -18,7 +20,7 @@ router.get("/:id", validateItemId, async (req, res, next) => {
  }
 });
 
-router.put("/:id", validateItemId, itemValidation, async (req, res, next) => {
+router.put("/:id", restricted, validateItemId, itemValidation, async (req, res, next) => {
  const { id } = req.params;
  try {
   const updatedItem = await Items.edit(id, req.existingItem);
@@ -28,7 +30,7 @@ router.put("/:id", validateItemId, itemValidation, async (req, res, next) => {
  }
 });
 
-router.post("/", itemValidation, async (req, res, next) => {
+router.post("/", restricted, itemValidation, async (req, res, next) => {
  try {
   const { item_category, item_name, item_price, location_id, user_id } =
    req.body;
@@ -45,7 +47,7 @@ router.post("/", itemValidation, async (req, res, next) => {
  }
 });
 
-router.delete("/:id", validateItemId, async (req, res, next) => {
+router.delete("/:id", restricted, validateItemId, async (req, res, next) => {
  try {
   const { id } = req.params;
   const item = await Items.remove(id);
