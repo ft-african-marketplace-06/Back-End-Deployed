@@ -34,7 +34,7 @@ router.post('/login', validateBody, checkUsernameDoesNotExist,  (req, res, next)
     }
 
     const token = jwt.sign(payload, JWT_SECRET, options);
-    res.status(200).json({ message: `Welcome, ${req.existingUser.username}`, token });
+    res.status(200).json({ message: `Welcome, ${req.existingUser.username}`, token, user_id: req.existingUser.user_id });
   } else {
     next({ status: 401, message: 'Invalid credentials' });
   }
